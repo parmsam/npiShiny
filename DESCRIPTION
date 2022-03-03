@@ -1,12 +1,8 @@
 Package: npiShiny
-Title: npiShiny: A Shiny App to Search NPI Records
+Title:  A Shiny App for Enhanced Search of NPI Records
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Sam",
-           family = "Parmar",
-           role = c("aut", "cre"),
-           email = "parmartsam@gmail.com")
-Description: NPI registry search app
+Authors@R: person('Sam', 'Parmar', email = 'parmartsam@gmail.com', role = c('cre', 'aut'))
+Description: Access the U.S. National Provider Identifier Registry API via a R Shiny app.
 License: MIT + file LICENSE
 Imports: 
     config (>= 0.3.1),
@@ -15,3 +11,5 @@ Imports:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
+URL: https://github.com/parmsam/npiShiny
+BugReports: https://github.com/parmsam/npiShiny/issues
