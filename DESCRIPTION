@@ -6,8 +6,8 @@ Authors@R:
            family = "Parmar",
            role = c("aut", "cre"),
            email = "parmartsam@gmail.com")
-Description: What the package does (one paragraph).
-License: What license is it under?
+Description: NPI registry search app
+License: MIT + file LICENSE
 Imports: 
     config (>= 0.3.1),
     golem (>= 0.3.1),
