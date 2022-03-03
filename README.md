@@ -9,8 +9,8 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of npiShiny is to provide an shiny App for Enhanced Search of
-NPI Records.
+The goal of npiShiny is to provide a Shiny app for enhanced search of
+NPI records
 
 ## Installation
 
