@@ -11,7 +11,8 @@ app_ui <- function(request) {
     # Your application UI logic 
     fluidPage(
       h1("npiShiny"),
-      h3("")
+      h3("Search NPI Records"),
+      mod_search_records_ui("main_search_panel")
     )
   )
 }

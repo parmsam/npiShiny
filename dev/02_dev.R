@@ -33,30 +33,31 @@ golem::add_utils( "helpers" )
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
-# golem::add_js_file( "script" )
-# golem::add_js_handler( "handlers" )
-# golem::add_css_file( "custom" )
+golem::add_js_file( "script" )
+golem::add_js_handler( "handlers" )
+golem::add_css_file( "custom" )
 
 ## Add internal datasets ----
 ## If you have data in your package
-# usethis::use_data_raw( name = "my_dataset", open = FALSE ) 
+usethis::use_data_raw( name = "countries", open = TRUE ) 
+usethis::use_data_raw( name = "states", open = TRUE ) 
 
 ## Tests ----
 ## Add one line by test you want to create
-# usethis::use_test( "app" )
+usethis::use_test( "app" )
 
 # Documentation
 
 ## Vignette ----
-# usethis::use_vignette("npiShiny")
-# devtools::build_vignettes()
+usethis::use_vignette("npiShiny")
+devtools::build_vignettes()
 
 ## Code Coverage----
 ## Set the code coverage service ("codecov" or "coveralls")
-# usethis::use_coverage()
+usethis::use_coverage()
 
 # Create a summary readme for the testthat subdirectory
-# covrpage::covrpage()
+covrpage::covrpage()
 
 ## CI ----
 ## Use this part of the script if you need to set up a CI
