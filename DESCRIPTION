@@ -6,6 +6,7 @@ Description: Access the U.S. National Provider Identifier Registry API via a R S
 License: MIT + file LICENSE
 Imports: 
     attempt,
+    checkmate,
     config (>= 0.3.1),
     dplyr,
     DT,
@@ -15,8 +16,11 @@ Imports:
     lubridate,
     npi (>= 0.1.0),
     processx,
+    reactable,
     shiny (>= 1.6.0),
-    stringr
+    shinyjs,
+    stringr,
+    waiter
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2

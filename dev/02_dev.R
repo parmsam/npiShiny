@@ -20,6 +20,10 @@ usethis::use_package( "stringr" )
 usethis::use_package( "lubridate" )
 usethis::use_package( "glue" )
 usethis::use_dev_package( "npi", remote = "github::frankfarach/npi" )
+usethis::use_package( "reactable" )
+usethis::use_package( "checkmate" )
+usethis::use_package( "shinyjs" )
+usethis::use_package( "waiter" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/

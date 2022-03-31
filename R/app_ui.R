@@ -8,10 +8,11 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+    shinyjs::useShinyjs(),
+    waiter::use_waitress(),
     # Your application UI logic 
     fluidPage(
       h1("npiShiny"),
-      h3("Search NPI Records"),
       mod_search_records_ui("main_search_panel")
     )
   )

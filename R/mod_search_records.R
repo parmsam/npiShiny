@@ -10,6 +10,7 @@
 mod_search_records_ui <- function(id, country_choices = countries, state_choices = states){
   ns <- NS(id)
   tagList(
+    fluidRow(column(6, h3("Search NPI Records"))),
     fluidRow(
       column(3,
         textInput(inputId = ns("npi_number"), 
@@ -18,10 +19,10 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
                   label = "First Name"),
         textInput(inputId = ns("city"), 
                   label = "City"),
-        textInput(inputId = "postal_code",
+        textInput(inputId = ns("postal_code"),
                   label = "Postal Code"),
         br(),
-        actionButton(inputId = "clear_button", label = "Clear")
+        actionButton(inputId = ns("clear_button"), label = "Clear")
              ),
       column(3,
         selectInput(inputId = ns("npi_type"), 
@@ -39,7 +40,8 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
                     choices = c("Any" = "any",
                                 "Primary Location" = "primary_location",
                                 "Secondary Location" = "secondary_location")),
-        actionButton(inputId = "search_button", label = "Search")
+        actionButton(inputId = ns("search_button"), label = "Search",
+                     style="color: #fff; background-color: #428bca; border-color: #357ebd;")
              ),
       column(4,
              textInput(inputId = ns("taxonomy_desc"), 
@@ -50,8 +52,13 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
                          label = "Country", 
                          choices = country_choices)
              )
-    )
-    
+    ),
+    fluidRow(
+      column(10,
+             h3("Results:"),
+             reactable::reactableOutput(outputId = ns("search_table"))
+             )
+      )
   )
 }
     
@@ -61,7 +68,57 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
 mod_search_records_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
- 
+    
+    search_df_react <- reactiveVal({
+      data.frame(None = "")
+    })
+    
+    observeEvent(input$clear_button,{
+      shinyjs::reset("npi_number")
+      shinyjs::reset("first_name")
+      shinyjs::reset("city")
+      shinyjs::reset("postal_code")
+      shinyjs::reset("npi_type")
+      shinyjs::reset("last_name")
+      shinyjs::reset("state")
+      shinyjs::reset("address_type")
+      shinyjs::reset("taxonomy_desc")
+      shinyjs::reset("taxonomy_desc")
+      shinyjs::reset("organization_name")
+      shinyjs::reset("country")
+    })
+    
+    observeEvent(input$search_button, {
+      req(  isTruthy(input$npi_number) |
+            isTruthy(input$taxonomy_desc) |
+            isTruthy(input$first_name) |
+            isTruthy(input$last_name) | 
+            isTruthy(input$organization_name) | 
+            isTruthy(input$city) |
+            isTruthy(input$state) |
+            isTruthy(input$country) |
+            isTruthy(input$postal_code)
+            )
+      search_df_react(
+        npi::npi_flatten(
+          try(
+            npi::npi_search(number = input$npi_number,
+                            taxonomy_description = input$taxonomy_desc,
+                            first_name = input$first_name,
+                            last_name = input$last_name
+                            )
+            )
+          )
+        )
+      
+    })
+    
+    output$search_table <- reactable::renderReactable({
+      reactable::reactable( 
+        search_df_react()
+        )
+    })
+    
   })
 }
     
