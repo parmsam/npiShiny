@@ -73,19 +73,12 @@ mod_search_records_server <- function(id){
       data.frame(None = "")
     })
     
+    initial_inputs <- isolate(reactiveValuesToList(input))
+    
     observeEvent(input$clear_button,{
-      shinyjs::reset("npi_number")
-      shinyjs::reset("first_name")
-      shinyjs::reset("city")
-      shinyjs::reset("postal_code")
-      shinyjs::reset("npi_type")
-      shinyjs::reset("last_name")
-      shinyjs::reset("state")
-      shinyjs::reset("address_type")
-      shinyjs::reset("taxonomy_desc")
-      shinyjs::reset("taxonomy_desc")
-      shinyjs::reset("organization_name")
-      shinyjs::reset("country")
+      for(id in names(initial_inputs)){
+        shinyjs::reset(id)
+      }
     })
     
     observeEvent(input$search_button, {
