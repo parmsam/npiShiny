@@ -113,7 +113,11 @@ mod_search_records_server <- function(id){
     #update search table output
     output$search_table <- reactable::renderReactable({
       reactable::reactable( 
-        search_df_react()
+        search_df_react(),
+        showPageInfo = TRUE,
+        pageSizeOptions = c(5, 10, 15),
+        defaultPageSize = 5,
+        paginationType = "jump"
         )
     })
     
