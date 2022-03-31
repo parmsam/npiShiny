@@ -69,10 +69,12 @@ mod_search_records_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
+    #initialize search results dataframe 
     search_df_react <- reactiveVal({
       data.frame(None = "")
     })
     
+    #logic to get inputs and reset them on clear button press 
     initial_inputs <- isolate(reactiveValuesToList(input))
     
     observeEvent(input$clear_button,{
@@ -81,6 +83,7 @@ mod_search_records_server <- function(id){
       }
     })
     
+    #try search on search button press
     observeEvent(input$search_button, {
       req(  isTruthy(input$npi_number) |
             isTruthy(input$taxonomy_desc) |
@@ -93,19 +96,21 @@ mod_search_records_server <- function(id){
             isTruthy(input$postal_code)
             )
       search_df_react(
-        npi::npi_flatten(
-          try(
-            npi::npi_search(number = input$npi_number,
+          tryCatch(
+            npi::npi_flatten(npi::npi_search(number = input$npi_number,
                             taxonomy_description = input$taxonomy_desc,
                             first_name = input$first_name,
                             last_name = input$last_name
-                            )
-            )
+                            )),
+            error = function(cond){
+              return( data.frame(Error = "") )
+            }
           )
         )
       
     })
     
+    #update search table output
     output$search_table <- reactable::renderReactable({
       reactable::reactable( 
         search_df_react()
