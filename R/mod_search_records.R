@@ -83,6 +83,16 @@ mod_search_records_server <- function(id){
       }
     })
     
+    npi_type_react <- reactive({
+      if( (isTruthy(input$first_name) | isTruthy(input$last_name)) & !isTruthy(input$organization_name) ){
+        "Individual"
+      }else if( !isTruthy(input$first_name) & !isTruthy(input$last_name) & isTruthy(input$organization_name) ){
+        "Organization"
+      } else{
+        ""
+      }
+    })
+    
     #try search on search button press
     observeEvent(input$search_button, {
       req(  isTruthy(input$npi_number) |
@@ -110,7 +120,7 @@ mod_search_records_server <- function(id){
                 country_code = stringr::str_trim(input$country)
                 )
               ) 
-            stdz_npi_output(temp_df)
+            stdz_npi_output( temp_df, npi_type_react() )
             },
             error = function(cond){
               return( data.frame(Error = "") )
