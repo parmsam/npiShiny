@@ -96,12 +96,22 @@ mod_search_records_server <- function(id){
             isTruthy(input$postal_code)
             )
       search_df_react(
-          tryCatch(
-            npi::npi_flatten(npi::npi_search(number = input$npi_number,
-                            taxonomy_description = input$taxonomy_desc,
-                            first_name = input$first_name,
-                            last_name = input$last_name
-                            )),
+          tryCatch({
+            temp_df <- npi::npi_flatten(
+              npi::npi_search(
+                number = stringr::str_trim(input$npi_number),
+                taxonomy_description = stringr::str_trim(input$taxonomy_desc),
+                first_name = stringr::str_trim(input$first_name),
+                last_name = stringr::str_trim(input$last_name),
+                organization_name = stringr::str_trim(input$organization_name),
+                city = stringr::str_trim(input$city),
+                state = stringr::str_trim(input$state),
+                postal_code = stringr::str_trim(input$postal_code),
+                country_code = stringr::str_trim(input$country)
+                )
+              ) 
+            stdz_npi_output(temp_df)
+            },
             error = function(cond){
               return( data.frame(Error = "") )
             }
