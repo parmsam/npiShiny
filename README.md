@@ -7,10 +7,20 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/parmsam/npiShiny?branch=main&svg=true)](https://ci.appveyor.com/project/parmsam/npiShiny)
 <!-- badges: end -->
 
 The goal of npiShiny is to provide a Shiny app for enhanced search of
-NPI records
+the U.S. National Provider Identifier (NPI) Registry. Source registry is
+hosted here: <https://npiregistry.cms.hhs.gov/>. It leverages the
+[npi](https://github.com/frankfarach/npi) package which helps access the
+API (v2.1) from the Center for Medicare and Medicaid Services.
+
+## Try it out
+
+App deployed to shinyapps.io here:
+<https://parmsam.shinyapps.io/npiShiny/>
 
 ## Installation
 
@@ -32,7 +42,7 @@ devtools::install_github("parmsam/npiShiny")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(npiShiny)
+# library(npiShiny)
 ```
 
 ## Code of Conduct
