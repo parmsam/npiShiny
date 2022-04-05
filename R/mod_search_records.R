@@ -120,7 +120,8 @@ mod_search_records_server <- function(id){
                 country_code = stringr::str_trim(input$country)
                 )
               ) 
-            stdz_npi_output( temp_df, npi_type_react() )
+            stdz_npi_output( temp_df, npi_type_react() ) %>%
+              filter(addresses_address_purpose == 'LOCATION')
             },
             error = function(cond){
               return( data.frame(Error = "") )
@@ -135,7 +136,8 @@ mod_search_records_server <- function(id){
       reactable::reactable( 
         search_df_react(),
         showPageInfo = TRUE,
-        pageSizeOptions = c(5, 10, 15),
+        showPageSizeOptions = TRUE,
+        pageSizeOptions = c(5, 10, 20, 100),
         defaultPageSize = 5,
         paginationType = "jump"
         )
