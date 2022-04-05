@@ -6,7 +6,7 @@
 #'
 #' @noRd
 
-stdz_npi_output <- function(flat_npi_df, npi_type){
+stdz_npi_output <- function(flat_npi_df, npi_type = "Individual"){
   if(npi_type=="Individual"){
     dplyr::transmute(flat_npi_df, 
                      NPI = npi, 

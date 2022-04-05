@@ -15,23 +15,23 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
       column(3,
         textInput(inputId = ns("npi_number"), 
                   label = "NPI Number"),
-        textInput(inputId = ns("first_name"), 
-                  label = "First Name"),
-        textInput(inputId = ns("city"), 
-                  label = "City"),
-        textInput(inputId = ns("postal_code"),
-                  label = "Postal Code"),
-        br(),
-        actionButton(inputId = ns("clear_button"), label = "Clear")
-             ),
-      column(3,
         selectInput(inputId = ns("npi_type"), 
                     label = "NPI Type", 
                     choices = c("Any" = "any",
                                 "Individual" = "individual",
                                 "Organization" = "organization")),
+        textInput(inputId = ns("first_name"), 
+                  label = "First Name"),
         textInput(inputId = ns("last_name"), 
                   label = "Last Name"),
+        br(),
+        actionButton(inputId = ns("clear_button"), label = "Clear")
+             ),
+      column(3,
+        textInput(inputId = ns("city"), 
+                  label = "City"),
+        textInput(inputId = ns("postal_code"),
+                  label = "Postal Code"),
         selectInput(inputId = ns("state"), 
                     label = "State", 
                     choices = state_choices),
@@ -44,13 +44,13 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
                      style="color: #fff; background-color: #428bca; border-color: #357ebd;")
              ),
       column(4,
+             selectInput(inputId = ns("country"), 
+                         label = "Country", 
+                         choices = country_choices),
              textInput(inputId = ns("taxonomy_desc"), 
                        label = "Taxonomy Description"),
              textInput(inputId = ns("organization_name"), 
-                       label = "Organization Name (LBN, DBA, Former LBN or Other Name)"),
-             selectInput(inputId = ns("country"), 
-                         label = "Country", 
-                         choices = country_choices)
+                       label = "Organization Name (LBN, DBA, Former LBN or Other Name)")
              )
     ),
     fluidRow(
@@ -119,9 +119,9 @@ mod_search_records_server <- function(id){
                 postal_code = stringr::str_trim(input$postal_code),
                 country_code = stringr::str_trim(input$country)
                 )
-              ) 
-            stdz_npi_output( temp_df, npi_type_react() ) %>%
-              filter(addresses_address_purpose == 'LOCATION')
+              )
+            temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
+            stdz_npi_output( temp_df2, npi_type_react() )
             },
             error = function(cond){
               return( data.frame(Error = "") )
