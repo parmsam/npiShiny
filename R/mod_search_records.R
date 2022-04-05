@@ -23,9 +23,7 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
         textInput(inputId = ns("first_name"), 
                   label = "First Name"),
         textInput(inputId = ns("last_name"), 
-                  label = "Last Name"),
-        br(),
-        actionButton(inputId = ns("clear_button"), label = "Clear")
+                  label = "Last Name")
              ),
       column(3,
         textInput(inputId = ns("city"), 
@@ -39,9 +37,7 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
                     label = "Address Type", 
                     choices = c("Any" = "any",
                                 "Primary Location" = "primary_location",
-                                "Secondary Location" = "secondary_location")),
-        actionButton(inputId = ns("search_button"), label = "Search",
-                     style="color: #fff; background-color: #428bca; border-color: #357ebd;")
+                                "Secondary Location" = "secondary_location"))
              ),
       column(4,
              selectInput(inputId = ns("country"), 
@@ -54,8 +50,19 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
              )
     ),
     fluidRow(
+      br(),
+      column(3,
+        actionButton(inputId = ns("clear_button"), label = "Clear"),
+             ),
+      column(3,
+        actionButton(inputId = ns("search_button"), label = "Search",
+                   style="color: #fff; background-color: #428bca; border-color: #357ebd;")
+             ),
+      br()
+    ),
+    fluidRow(
       column(10,
-             h3("Results:"),
+             h3("Results"),
              reactable::reactableOutput(outputId = ns("search_table"))
              )
       )
