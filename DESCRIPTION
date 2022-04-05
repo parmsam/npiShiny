@@ -15,6 +15,7 @@ Imports:
     htmltools,
     lubridate,
     npi (>= 0.1.0),
+    pkgload,
     processx,
     reactable,
     shiny (>= 1.6.0),
