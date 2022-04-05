@@ -12,15 +12,16 @@ status](https://ci.appveyor.com/api/projects/status/github/parmsam/npiShiny?bran
 <!-- badges: end -->
 
 The goal of npiShiny is to provide a Shiny app for enhanced search of
-the U.S. National Provider Identifier (NPI) Registry. Source registry is
-hosted here: <https://npiregistry.cms.hhs.gov/>. It leverages the
-[npi](https://github.com/frankfarach/npi) package which helps access the
-API (v2.1) from the Center for Medicare and Medicaid Services.
+the U.S. National Provider Identifier (NPI) Registry. The original
+registry is available [here](https://npiregistry.cms.hhs.gov/). This
+Shiny app leverages the [npi](https://github.com/frankfarach/npi)
+package which helps access the API (v2.1) from the Center for Medicare
+and Medicaid Services.
 
 ## Try it out
 
-App deployed to shinyapps.io here:
-<https://parmsam.shinyapps.io/npiShiny/>
+The app is deployed to shinyapps.io
+[here](https://parmsam.shinyapps.io/npiShiny/)
 
 ## Installation
 
