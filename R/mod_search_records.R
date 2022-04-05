@@ -146,7 +146,8 @@ mod_search_records_server <- function(id){
         showPageSizeOptions = TRUE,
         pageSizeOptions = c(5, 10, 20, 100),
         defaultPageSize = 5,
-        paginationType = "jump"
+        paginationType = "jump",
+        defaultColDef = reactable::colDef(align = "left")
         )
     })
     
