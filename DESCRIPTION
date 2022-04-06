@@ -18,6 +18,7 @@ Imports:
     pkgload,
     processx,
     reactable,
+    reactablefmtr,
     shiny (>= 1.6.0),
     shinyjs,
     stringr,

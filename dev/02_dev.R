@@ -24,7 +24,7 @@ usethis::use_package( "reactable" )
 usethis::use_package( "checkmate" )
 usethis::use_package( "shinyjs" )
 usethis::use_package( "waiter" )
-
+usethis::use_package( "reactablefmtr" )
 ## Add modules ----
 ## Create a module infrastructure in R/
 golem::add_module( name = "search_records" ) # Name of the module

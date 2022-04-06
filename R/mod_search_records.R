@@ -10,7 +10,9 @@
 mod_search_records_ui <- function(id, country_choices = countries, state_choices = states){
   ns <- NS(id)
   tagList(
+    HTML('<a name="top"></a>'),
     fluidRow(column(6, h3("Search NPI Records"))),
+    hr(),
     fluidRow(
       column(3,
         textInput(inputId = ns("npi_number"), 
@@ -20,6 +22,7 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
                     choices = c("Any" = "any",
                                 "Individual" = "individual",
                                 "Organization" = "organization")),
+        div(class="custom-label", tags$label("for individuals")),
         textInput(inputId = ns("first_name"), 
                   label = "First Name"),
         textInput(inputId = ns("last_name"), 
@@ -45,6 +48,7 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
                          choices = country_choices),
              textInput(inputId = ns("taxonomy_desc"), 
                        label = "Taxonomy Description"),
+             div(class="custom-label", tags$label("for organizations")),
              textInput(inputId = ns("organization_name"), 
                        label = "Organization Name (LBN, DBA, Former LBN or Other Name)")
              )
@@ -58,12 +62,14 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
         actionButton(inputId = ns("search_button"), label = "Search",
                    style="color: #fff; background-color: #428bca; border-color: #357ebd;")
              ),
-      br()
+      br(),br(),
+      hr()
     ),
     fluidRow(
       column(10,
              h3("Results"),
-             reactable::reactableOutput(outputId = ns("search_table"))
+             reactable::reactableOutput(outputId = ns("search_table")),
+             tags$div(HTML('<a href="#top" style="float:right;">go to top</a>'))
              )
       )
   )
@@ -96,7 +102,7 @@ mod_search_records_server <- function(id){
       }else if( !isTruthy(input$first_name) & !isTruthy(input$last_name) & isTruthy(input$organization_name) ){
         "Organization"
       } else{
-        ""
+        "Individual"
       }
     })
     
@@ -129,6 +135,7 @@ mod_search_records_server <- function(id){
               )
             temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
             stdz_npi_output( temp_df2, npi_type_react() )
+              
             },
             error = function(cond){
               return( data.frame(Error = "") )
@@ -140,15 +147,23 @@ mod_search_records_server <- function(id){
     
     #update search table output
     output$search_table <- reactable::renderReactable({
+      
       reactable::reactable( 
         search_df_react(),
+        # stdz_npi_output(test_Df),
         showPageInfo = TRUE,
         showPageSizeOptions = TRUE,
         pageSizeOptions = c(5, 10, 20, 100),
         defaultPageSize = 5,
         paginationType = "jump",
-        defaultColDef = reactable::colDef(align = "left")
-        )
+        defaultColDef = reactable::colDef(align = "left"),
+        columns = list(
+          `NPI Type` = reactable::colDef(cell = reactablefmtr::icon_sets(data, icons = c("arrow-down","minus", "plus")
+                                                                         )
+                                         )
+          )
+      )
+      
     })
     
   })
