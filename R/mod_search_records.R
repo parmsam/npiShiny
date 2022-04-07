@@ -69,6 +69,7 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
     fluidRow(
       column(12,
              h3("Results"),
+             downloadButton(outputId = ns("download_results"), "Download Search Results"),
              reactable::reactableOutput(outputId = ns("search_table")),
              tags$div(HTML('<a href="#top" style="float:right;">go to top</a>'))
              )
@@ -95,13 +96,13 @@ mod_search_records_server <- function(id){
     
     #logic to get inputs and reset them on clear button press 
     initial_inputs <- isolate(reactiveValuesToList(input))
-    
     observeEvent(input$clear_button,{
       for(id in names(initial_inputs)){
         shinyjs::reset(id)
       }
     })
     
+    #define npi record types
     npi_type_react <- reactive({
       if( (isTruthy(input$first_name) | isTruthy(input$last_name)) & !isTruthy(input$organization_name) ){
         "Individual"
@@ -138,9 +139,10 @@ mod_search_records_server <- function(id){
               country_code = stringr::str_trim(input$country)
               )
             temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
-            temp_df2 <- dplyr::mutate(temp_df2, basic_status = dplyr::recode(basic_status, a="Active"))
-            temp_df2 <- dplyr::mutate(temp_df2, `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2}
-                                                                                  {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"))
+            temp_df2 <- dplyr::mutate(temp_df2, basic_status = dplyr::recode(basic_status, "A"="Active"))
+            temp_df2 <- dplyr::mutate(temp_df2, 
+            `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2}
+                                                    {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"))
             reference_df <- dplyr::select(temp_df2,
                                           NPI = npi,
                                           `Enumeration Date` = basic_enumeration_date,
@@ -167,7 +169,6 @@ mod_search_records_server <- function(id){
     
     #update search table output
     output$search_table <- reactable::renderReactable({
-      browser()
       reactable::reactable( 
         search_df_react(),
         showPageInfo = TRUE,
@@ -175,6 +176,7 @@ mod_search_records_server <- function(id){
         pageSizeOptions = c(5, 10, 20, 100),
         defaultPageSize = 5,
         paginationType = "jump",
+        searchable = TRUE,
         defaultColDef = reactable::colDef(align = "left"),
         onClick = 'expand',
         details = function(index) {
@@ -189,14 +191,31 @@ mod_search_records_server <- function(id){
               )
             })
         }
+        
         # columns = list(
         #   `NPI Type` = reactable::colDef(cell = reactablefmtr::icon_sets(data, icons = c("arrow-down","minus", "plus")
         #                                                                  )
         #                                  )
         #   )
       )
-      
     })
+    
+    #define joined dataframe for csv download
+    joined_df <- reactive({
+      req( reference_df_react() )
+      req( search_df_react() )
+      dplyr::left_join( search_df_react(), reference_df_react(), by = c("NPI"))
+    })
+    
+    #define download logic
+    output$download_results <- downloadHandler(
+      filename = function() {
+        paste('npiShiny-results_', Sys.Date(), '.csv', sep='')
+      },
+      content = function(con) {
+        write.csv(joined_df(), con, row.names = FALSE, na = "")
+      }
+    )
     
   })
 }
