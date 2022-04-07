@@ -149,18 +149,25 @@ mod_search_records_server <- function(id){
       
       reactable::reactable( 
         search_df_react(),
-        # stdz_npi_output(test_Df),
         showPageInfo = TRUE,
         showPageSizeOptions = TRUE,
         pageSizeOptions = c(5, 10, 20, 100),
         defaultPageSize = 5,
         paginationType = "jump",
-        defaultColDef = reactable::colDef(align = "left"),
-        columns = list(
-          `NPI Type` = reactable::colDef(cell = reactablefmtr::icon_sets(data, icons = c("arrow-down","minus", "plus")
-                                                                         )
-                                         )
-          )
+        searchable = TRUE,
+        defaultColDef = reactable::colDef(align = "left")
+        # onClick = 'expand',
+        # details = function(index) {
+        #     plant_data <- search_df_react()[CO2$Plant == data$Plant[index], ]
+        #     htmltools::div(style = "padding: 16px",
+        #                    reactable(plant_data, outlined = TRUE)
+        #     )
+        # }
+        # columns = list(
+        #   `NPI Type` = reactable::colDef(cell = reactablefmtr::icon_sets(data, icons = c("arrow-down","minus", "plus")
+        #                                                                  )
+        #                                  )
+        #   )
       )
       
     })
