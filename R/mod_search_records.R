@@ -83,7 +83,12 @@ mod_search_records_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-    #initialize search results dataframe 
+    #initialize reference search result dataframe
+    reference_df_react <- reactiveVal({
+      data.frame(None = "")
+    })
+    
+    #initialize output search results dataframe 
     search_df_react <- reactiveVal({
       data.frame(None = "")
     })
@@ -133,8 +138,24 @@ mod_search_records_server <- function(id){
               country_code = stringr::str_trim(input$country)
               )
             temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
+            temp_df2 <- dplyr::mutate(temp_df2, basic_status = dplyr::recode(basic_status, a="Active"))
+            temp_df2 <- dplyr::mutate(temp_df2, `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2}
+                                                                                  {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"))
+            reference_df <- dplyr::select(temp_df2,
+                                          NPI = npi,
+                                          `Enumeration Date` = basic_enumeration_date,
+                                          `Status` = basic_status,
+                                          `Last Updated` = basic_last_updated,
+                                          `Telephone Number` = addresses_telephone_number,
+                                          `Primary Practice Address`,
+                                          `Address Type` = addresses_address_type,
+                                          `Identifier Type` = identifiers_desc,
+                                          `Other Identifier` = identifiers_identifier
+                                          )
+            reference_df <- unique(reference_df)
+            reference_df_react( reference_df  )
+            
             stdz_npi_output( temp_df2, npi_type_react() )
-              
             },
             error = function(cond){
               return( data.frame(Error = "") )
@@ -146,7 +167,7 @@ mod_search_records_server <- function(id){
     
     #update search table output
     output$search_table <- reactable::renderReactable({
-      
+      browser()
       reactable::reactable( 
         search_df_react(),
         showPageInfo = TRUE,
@@ -154,15 +175,20 @@ mod_search_records_server <- function(id){
         pageSizeOptions = c(5, 10, 20, 100),
         defaultPageSize = 5,
         paginationType = "jump",
-        searchable = TRUE,
-        defaultColDef = reactable::colDef(align = "left")
-        # onClick = 'expand',
-        # details = function(index) {
-        #     plant_data <- search_df_react()[CO2$Plant == data$Plant[index], ]
-        #     htmltools::div(style = "padding: 16px",
-        #                    reactable(plant_data, outlined = TRUE)
-        #     )
-        # }
+        defaultColDef = reactable::colDef(align = "left"),
+        onClick = 'expand',
+        details = function(index) {
+            tryCatch({
+              extended_data <- reference_df_react()[reference_df_react()$NPI == search_df_react()$NPI[index], ]
+            htmltools::div(style = "padding: 16px",
+                           reactable::reactable(extended_data, outlined = TRUE)
+                           )
+            }, error = function(e){
+            htmltools::div(style = "padding: 16px",
+                             reactable::reactable( data.frame(Empty=""), outlined = TRUE)
+              )
+            })
+        }
         # columns = list(
         #   `NPI Type` = reactable::colDef(cell = reactablefmtr::icon_sets(data, icons = c("arrow-down","minus", "plus")
         #                                                                  )
