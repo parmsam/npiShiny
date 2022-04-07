@@ -121,18 +121,16 @@ mod_search_records_server <- function(id){
             )
       search_df_react(
           tryCatch({
-            temp_df <- npi::npi_flatten(
-              npi::npi_search(
-                number = stringr::str_trim(input$npi_number),
-                taxonomy_description = stringr::str_trim(input$taxonomy_desc),
-                first_name = stringr::str_trim(input$first_name),
-                last_name = stringr::str_trim(input$last_name),
-                organization_name = stringr::str_trim(input$organization_name),
-                city = stringr::str_trim(input$city),
-                state = stringr::str_trim(input$state),
-                postal_code = stringr::str_trim(input$postal_code),
-                country_code = stringr::str_trim(input$country)
-                )
+            temp_df <- npi_flat_search(
+              number = stringr::str_trim(input$npi_number),
+              taxonomy_description = stringr::str_trim(input$taxonomy_desc),
+              first_name = stringr::str_trim(input$first_name),
+              last_name = stringr::str_trim(input$last_name),
+              organization_name = stringr::str_trim(input$organization_name),
+              city = stringr::str_trim(input$city),
+              state = stringr::str_trim(input$state),
+              postal_code = stringr::str_trim(input$postal_code),
+              country_code = stringr::str_trim(input$country)
               )
             temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
             stdz_npi_output( temp_df2, npi_type_react() )
