@@ -15,7 +15,7 @@ stdz_npi_output <- function(flat_npi_df, npi_type = "Individual"){
                      # `NPI Type` = 1,
                      `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2} 
                                                  {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"),
-                     Phone = addresses_telephone_number,
+                     `Telephone Number` = addresses_telephone_number,
                      `Primary Taxonomy` = taxonomies_desc,
     )
     unique(df)
@@ -27,7 +27,7 @@ stdz_npi_output <- function(flat_npi_df, npi_type = "Individual"){
                      # `NPI Type` = 2,
                      `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2} 
                                                  {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"),
-                     Phone = addresses_telephone_number,
+                     `Telephone Number` = addresses_telephone_number,
                      `Primary Taxonomy` = taxonomies_desc
     )
     unique(df)
