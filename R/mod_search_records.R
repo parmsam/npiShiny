@@ -141,8 +141,8 @@ mod_search_records_server <- function(id){
               postal_code = stringr::str_trim(input$postal_code),
               country_code = stringr::str_trim(input$country)
               )
-            browser()
-            temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
+
+                        temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
             temp_df2 <- dplyr::mutate(temp_df2, basic_status = dplyr::recode(basic_status, "A"="Active"))
             temp_df2 <- dplyr::mutate(temp_df2, 
             `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2}
