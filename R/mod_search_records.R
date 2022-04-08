@@ -84,6 +84,9 @@ mod_search_records_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
+    # disable the downdload button on page load
+    shinyjs::disable("download_results")
+    
     #initialize reference search result dataframe
     reference_df_react <- reactiveVal({
       data.frame(None = "")
@@ -138,22 +141,38 @@ mod_search_records_server <- function(id){
               postal_code = stringr::str_trim(input$postal_code),
               country_code = stringr::str_trim(input$country)
               )
+            browser()
             temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
             temp_df2 <- dplyr::mutate(temp_df2, basic_status = dplyr::recode(basic_status, "A"="Active"))
             temp_df2 <- dplyr::mutate(temp_df2, 
             `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2}
                                                     {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"))
-            reference_df <- dplyr::select(temp_df2,
-                                          NPI = npi,
-                                          `Enumeration Date` = basic_enumeration_date,
-                                          `Status` = basic_status,
-                                          `Last Updated` = basic_last_updated,
-                                          `Telephone Number` = addresses_telephone_number,
-                                          `Primary Practice Address`,
-                                          `Address Type` = addresses_address_type,
-                                          `Identifier Type` = identifiers_desc,
-                                          `Other Identifier` = identifiers_identifier
-                                          )
+            reference_df <- dplyr::rename(temp_df2,
+                                          dplyr::any_of(
+                                            c(
+                                              "NPI" = "npi",
+                                              "Enumeration Date" = "basic_enumeration_date",
+                                              "Status" = "basic_status",
+                                              "Last Updated" = "basic_last_updated",
+                                              "Telephone Number" = "addresses_telephone_number",
+                                              "Primary Practice Address" ="Primary Practice Address",
+                                              "Address Type" = "addresses_address_type",
+                                              "Identifier Type" = "identifiers_desc",
+                                              "Other Identifier" = 'identifiers_identifier'
+                                            )
+                                            )
+                                          ) 
+            reference_df <- dplyr::select(reference_df, 
+                                   any_of(
+                                     c("NPI", 
+                                   "Enumeration Date" ,
+                                   "Status" ,
+                                   "Last Updated" ,
+                                   "Telephone Number" ,
+                                   "Primary Practice Address",
+                                   "Address Type" ,
+                                   "Identifier Type" ,
+                                   "Other Identifier"))  )
             reference_df <- unique(reference_df)
             reference_df_react( reference_df  )
             
@@ -204,7 +223,14 @@ mod_search_records_server <- function(id){
     joined_df <- reactive({
       req( reference_df_react() )
       req( search_df_react() )
-      dplyr::left_join( search_df_react(), reference_df_react(), by = c("NPI"))
+      dplyr::left_join( search_df_react(), reference_df_react(), by = c("NPI") )
+    })
+    
+    observeEvent( input$search_button, {
+      req( reference_df_react() )
+      req( search_df_react() )
+      # enable the download button
+      shinyjs::enable("download_results")
     })
     
     #define download logic
