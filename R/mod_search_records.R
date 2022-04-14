@@ -70,6 +70,7 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
       column(12,
              h3("Results"),
              downloadButton(outputId = ns("download_results"), "Download Search Results"),
+             br(),br(),
              reactable::reactableOutput(outputId = ns("search_table")),
              tags$div(HTML('<a href="#top" style="float:right;">go to top</a>'))
              )
@@ -196,6 +197,7 @@ mod_search_records_server <- function(id){
         defaultPageSize = 5,
         paginationType = "jump",
         searchable = TRUE,
+        theme = reactable::reactableTheme(searchInputStyle = list(width = "100%")),
         defaultColDef = reactable::colDef(align = "left"),
         onClick = 'expand',
         details = function(index) {
