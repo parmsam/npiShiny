@@ -54,9 +54,14 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
              )
     ),
     fluidRow(
+      column(7,
+        checkboxInput(inputId = ns("enable_multi_term_search"), label = "Check this box to search multiple comma-seperated search terms in a field")
+             )
+    ),
+    fluidRow(
       br(),
       column(3,
-        actionButton(inputId = ns("clear_button"), label = "Clear"),
+        actionButton(inputId = ns("clear_button"), label = "Clear")
              ),
       column(4,
         actionButton(inputId = ns("search_button"), label = "Search",
