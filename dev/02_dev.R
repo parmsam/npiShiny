@@ -49,7 +49,10 @@ usethis::use_data_raw( name = "states", open = TRUE )
 
 ## Tests ----
 ## Add one line by test you want to create
-usethis::use_test( "app" )
+# usethis::use_test( "app" )
+usethis::use_test("stdz_zips")
+usethis::use_test("stdz_npi_output")
+usethis::use_test("npi_flat_search")
 
 # Documentation
 
