@@ -12,6 +12,7 @@ app_ui <- function(request) {
     waiter::use_waitress(),
     # Your application UI logic 
     fluidPage(
+      theme = bslib::bs_theme(version = 5, bootswatch = "minty"),
       h1("npiShiny"),
       mod_search_records_ui("main_search_panel")
     )

@@ -6,6 +6,7 @@ Description: Access the U.S. National Provider Identifier Registry API via a R S
 License: MIT + file LICENSE
 Imports: 
     attempt,
+    bslib,
     checkmate,
     config (>= 0.3.1),
     dplyr,
