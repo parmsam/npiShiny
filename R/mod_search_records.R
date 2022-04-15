@@ -12,8 +12,7 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
   tagList(
     tags$div(HTML('<a href="https://github.com/parmsam/npiShiny" style="float:right;">Github Repo</a>')),
     HTML('<a name="top"></a>'),
-    fluidRow(column(6, h3("Search NPI Records"))),
-    hr(),
+    fluidRow(column(7, h2("Search NPI Records"))),
     fluidRow(
       column(3,
         textInput(inputId = ns("npi_number"), 
@@ -62,13 +61,11 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
       column(4,
         actionButton(inputId = ns("search_button"), label = "Search",
                    style="color: #fff; background-color: #428bca; border-color: #357ebd;")
-             ),
-      br(),br(),
-      hr()
+             )
     ),
     fluidRow(
       column(12,
-             h3("Results"),
+             h2("Results"),
              downloadButton(outputId = ns("download_results"), "Download Search Results"),
              br(),br(),
              reactable::reactableOutput(outputId = ns("search_table")),
