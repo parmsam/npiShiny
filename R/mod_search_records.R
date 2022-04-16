@@ -53,8 +53,13 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
              )
     ),
     fluidRow(
-      column(7,
-        checkboxInput(inputId = ns("enable_multi_term_search"), label = "Check this box to search multiple comma-seperated search terms in a field")
+      column(12,
+        checkboxInput(inputId = ns("exact_matches_only"), 
+                      label = "Check this box to search for Exact Matches only", 
+                      width = "100%")
+        # checkboxInput(inputId = ns("enable_multi_term_search"),
+        #               label = "Check this box to search multiple comma-seperated search terms in a field",
+        #               width="100%")
              )
     ),
     fluidRow(
@@ -133,18 +138,18 @@ mod_search_records_server <- function(id){
       search_df_react(
           tryCatch({
             temp_df <- npi_flat_search(
-              number = stringr::str_trim(input$npi_number),
-              taxonomy_description = stringr::str_trim(input$taxonomy_desc),
-              first_name = stringr::str_trim(input$first_name),
-              last_name = stringr::str_trim(input$last_name),
-              organization_name = stringr::str_trim(input$organization_name),
-              city = stringr::str_trim(input$city),
-              state = stringr::str_trim(input$state),
-              postal_code = stringr::str_trim(input$postal_code),
-              country_code = stringr::str_trim(input$country)
+              number = add_star_to_end(input$npi_number, input$exact_matches_only),
+              taxonomy_description = add_star_to_end(input$taxonomy_desc, input$exact_matches_only),
+              first_name = add_star_to_end(input$first_name, input$exact_matches_only),
+              last_name = add_star_to_end(input$last_name, input$exact_matches_only),
+              organization_name = add_star_to_end(input$organization_name, input$exact_matches_only),
+              city = add_star_to_end(input$city, input$exact_matches_only),
+              state = add_star_to_end(input$state, input$exact_matches_only),
+              postal_code = add_star_to_end(input$postal_code, input$exact_matches_only),
+              country_code = add_star_to_end(input$country, input$exact_matches_only)
               )
 
-                        temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
+            temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
             temp_df2 <- dplyr::mutate(temp_df2, basic_status = dplyr::recode(basic_status, "A"="Active"))
             temp_df2 <- dplyr::mutate(temp_df2, 
             `Primary Practice Address` = stringr::str_to_upper(glue::glue("{addresses_address_1} {addresses_address_2}
