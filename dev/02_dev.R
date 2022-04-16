@@ -26,6 +26,7 @@ usethis::use_package( "shinyjs" )
 usethis::use_package( "waiter" )
 usethis::use_package( "reactablefmtr" )
 usethis::use_package( "bslib" )
+usethis::use_package( "shinyalert" )
 ## Add modules ----
 ## Create a module infrastructure in R/
 golem::add_module( name = "search_records" ) # Name of the module

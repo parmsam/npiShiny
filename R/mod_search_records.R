@@ -178,10 +178,28 @@ mod_search_records_server <- function(id){
             reference_df <- unique(reference_df)
             reference_df_react( reference_df  )
             
+            shinyalert::shinyalert(
+              title = "Search completed",
+              text = "Please scroll down for search results",
+              size = "s", 
+              closeOnEsc = TRUE,
+              closeOnClickOutside = FALSE,
+              html = FALSE,
+              type = "success",
+              showConfirmButton = TRUE,
+              showCancelButton = FALSE,
+              confirmButtonText = "OK",
+              confirmButtonCol = "#AEDEF4",
+              timer = 0,
+              imageUrl = "",
+              animation = TRUE
+            )
+            
             stdz_npi_output( temp_df2, npi_type_react() )
+            
             },
             error = function(cond){
-              return( data.frame(Error = "") )
+              return( data.frame(`Attention` = "No matching records found.") )
             }
           )
         )

@@ -10,6 +10,7 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     shinyjs::useShinyjs(),
     waiter::use_waitress(),
+    shinyalert::useShinyalert(),
     # Your application UI logic 
     fluidPage(
       theme = bslib::bs_theme(version = 5, bootswatch = "minty"),

@@ -21,6 +21,7 @@ Imports:
     reactable,
     reactablefmtr,
     shiny (>= 1.6.0),
+    shinyalert,
     shinyjs,
     stringr,
     waiter
