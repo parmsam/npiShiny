@@ -14,6 +14,7 @@ app_ui <- function(request) {
     fluidPage(
       theme = bslib::bs_theme(version = 5, bootswatch = "minty"),
       h1("npiShiny"),
+      mod_github_corner_ui("github_link", 'https://parmsam.shinyapps.io/npiShiny/'),
       mod_search_records_ui("main_search_panel")
     )
   )

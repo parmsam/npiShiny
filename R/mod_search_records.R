@@ -10,7 +10,6 @@
 mod_search_records_ui <- function(id, country_choices = countries, state_choices = states){
   ns <- NS(id)
   tagList(
-    tags$div(HTML('<a href="https://github.com/parmsam/npiShiny" style="float:right;">Github Repo</a>')),
     HTML('<a name="top"></a>'),
     fluidRow(column(7, h2("Search NPI Records"))),
     fluidRow(
