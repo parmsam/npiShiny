@@ -15,7 +15,7 @@ app_ui <- function(request) {
       theme = bslib::bs_theme(version = 5, bootswatch = "minty"),
       mod_jump_top_site_ui("jump_button"),
       h1("npiShiny"),
-      mod_github_corner_ui("github_link", 'https://parmsam.shinyapps.io/npiShiny/'),
+      mod_github_corner_ui("github_link", 'https://github.com/parmsam/npiShiny/'),
       mod_search_records_ui("main_search_panel")
     )
   )
