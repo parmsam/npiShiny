@@ -76,7 +76,8 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
              h2("Results"),
              downloadButton(outputId = ns("download_results"), "Download Search Results"),
              br(),br(),
-             reactable::reactableOutput(outputId = ns("search_table"))
+             reactable::reactableOutput(outputId = ns("search_table")),
+             br(),br(),br()
              )
       )
   )
