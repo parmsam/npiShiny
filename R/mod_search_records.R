@@ -10,7 +10,6 @@
 mod_search_records_ui <- function(id, country_choices = countries, state_choices = states){
   ns <- NS(id)
   tagList(
-    HTML('<a name="top"></a>'),
     fluidRow(column(7, h2("Search NPI Records"))),
     fluidRow(
       column(3,
@@ -77,8 +76,7 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
              h2("Results"),
              downloadButton(outputId = ns("download_results"), "Download Search Results"),
              br(),br(),
-             reactable::reactableOutput(outputId = ns("search_table")),
-             tags$div(HTML('<a href="#top" style="float:right;">go to top</a>'))
+             reactable::reactableOutput(outputId = ns("search_table"))
              )
       )
   )

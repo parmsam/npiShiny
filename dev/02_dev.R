@@ -31,6 +31,7 @@ usethis::use_package( "shinyalert" )
 ## Create a module infrastructure in R/
 golem::add_module( name = "search_records" ) # Name of the module
 golem::add_module( name = "github_corner" ) # Name of the module
+golem::add_module( name = "jump_top_site" ) # Name of the module
 # golem::add_module( name = "name_of_module2" ) # Name of the module
 
 ## Add helper functions ----
