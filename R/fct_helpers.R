@@ -10,11 +10,11 @@ stdz_npi_output <- function(flat_npi_df, npi_type = "Individual"){
   if(npi_type=="Individual"){
     df <- dplyr::transmute(flat_npi_df, 
                      NPI = npi, 
-                     Name = glue::glue("{basic_first_name} {basic_last_name}"),
+                     Name = stringr::str_to_title(glue::glue("{basic_first_name} {basic_last_name}")),
                      `NPI Type` = "Individual",
                      # `NPI Type` = 1,
-                     `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2} 
-                                                 {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"),
+                     `Primary Practice Address` = stringr::str_to_title(glue::glue("{addresses_address_1} {addresses_address_2} 
+                                                 {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}")),
                      `Telephone Number` = addresses_telephone_number,
                      `Primary Taxonomy` = taxonomies_desc,
     )
@@ -25,8 +25,8 @@ stdz_npi_output <- function(flat_npi_df, npi_type = "Individual"){
                      Name = glue::glue("{basic_organization_name}"),
                      `NPI Type` = "Organization",
                      # `NPI Type` = 2,
-                     `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2} 
-                                                 {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"),
+                     `Primary Practice Address` = stringr::str_to_title(glue::glue("{addresses_address_1} {addresses_address_2} 
+                                                 {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}")),
                      `Telephone Number` = addresses_telephone_number,
                      `Primary Taxonomy` = taxonomies_desc
     )

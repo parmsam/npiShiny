@@ -147,8 +147,8 @@ mod_search_records_server <- function(id){
                         temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
             temp_df2 <- dplyr::mutate(temp_df2, basic_status = dplyr::recode(basic_status, "A"="Active"))
             temp_df2 <- dplyr::mutate(temp_df2, 
-            `Primary Practice Address` = glue::glue("{addresses_address_1} {addresses_address_2}
-                                                    {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"))
+            `Primary Practice Address` = stringr::str_to_upper(glue::glue("{addresses_address_1} {addresses_address_2}
+                                                    {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}")) )
             reference_df <- dplyr::rename(temp_df2,
                                           dplyr::any_of(
                                             c(
