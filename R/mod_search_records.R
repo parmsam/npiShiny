@@ -52,14 +52,18 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
              )
     ),
     fluidRow(
-      column(12,
+      column(6,
         checkboxInput(inputId = ns("exact_matches_only"), 
                       label = "Check this box to search for Exact Matches only", 
                       width = "100%")
         # checkboxInput(inputId = ns("enable_multi_term_search"),
         #               label = "Check this box to search multiple comma-seperated search terms in a field",
         #               width="100%")
-             )
+             ),
+      column(4,
+        (tags$span("Note: Search results generated using", tags$a(href="https://github.com/frankfarach/npi","npi R package"), "functions that leverage the NPI Registry API.")),
+        tags$span("Application based on", tags$a(href="https://npiregistry.cms.hhs.gov/","NPPES NPI Registry"), "website.")
+        )
     ),
     fluidRow(
       br(),
