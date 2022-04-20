@@ -34,6 +34,10 @@ golem::add_module( name = "github_corner" ) # Name of the module
 golem::add_module( name = "jump_top_site" ) # Name of the module
 # golem::add_module( name = "name_of_module2" ) # Name of the module
 
+## Use pipe
+usethis::use_pipe(export = TRUE)
+
+
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct( "helpers" ) 

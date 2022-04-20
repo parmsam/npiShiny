@@ -15,6 +15,7 @@ Imports:
     golem (>= 0.3.1),
     htmltools,
     lubridate,
+    magrittr,
     npi (>= 0.1.0),
     pkgload,
     processx,

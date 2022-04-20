@@ -149,10 +149,16 @@ mod_search_records_server <- function(id){
               )
 
             temp_df2 <- dplyr::filter(temp_df, addresses_address_purpose == 'LOCATION')
+            temp_df2_mail <- dplyr::filter(temp_df, addresses_address_purpose == 'MAILING') %>% 
+              dplyr::mutate(`Mailing Address` = stringr::str_to_upper(glue::glue("{addresses_address_1} {addresses_address_2}
+                                                    {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}"))) %>%
+              dplyr::select(npi, `Mailing Address`)
+            
             temp_df2 <- dplyr::mutate(temp_df2, basic_status = dplyr::recode(basic_status, "A"="Active"))
             temp_df2 <- dplyr::mutate(temp_df2, 
             `Primary Practice Address` = stringr::str_to_upper(glue::glue("{addresses_address_1} {addresses_address_2}
-                                                    {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}")) )
+                                                    {addresses_city},{addresses_state} {stdz_zips(addresses_postal_code)}")) ) %>%
+              dplyr::left_join(temp_df2_mail, by = "npi")
             reference_df <- dplyr::rename(temp_df2,
                                           dplyr::any_of(
                                             c(
@@ -177,6 +183,7 @@ mod_search_records_server <- function(id){
                                    "Telephone Number" ,
                                    "Primary Practice Address",
                                    "Address Type" ,
+                                   "Mailing Address",
                                    "Identifier Type" ,
                                    "Other Identifier"))  )
             reference_df <- unique(reference_df)
