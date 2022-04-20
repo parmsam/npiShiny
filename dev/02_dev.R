@@ -27,6 +27,7 @@ usethis::use_package( "waiter" )
 usethis::use_package( "reactablefmtr" )
 usethis::use_package( "bslib" )
 usethis::use_package( "shinyalert" )
+usethis::use_dev_package( "nter", remote = "gitlab::JohnCoene/nter")
 ## Add modules ----
 ## Create a module infrastructure in R/
 golem::add_module( name = "search_records" ) # Name of the module

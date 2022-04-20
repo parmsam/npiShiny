@@ -17,6 +17,7 @@ Imports:
     lubridate,
     magrittr,
     npi (>= 0.1.0),
+    nter (>= 0.0.0.9000),
     pkgload,
     processx,
     reactable,
@@ -36,7 +37,8 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Language: en-US
-Remotes: 
-    github::frankfarach/npi
+Remotes:  
+    github::frankfarach/npi,
+    gitlab::JohnCoene/nter
 Depends: 
     R (>= 2.10)

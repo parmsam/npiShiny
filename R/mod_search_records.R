@@ -68,7 +68,11 @@ mod_search_records_ui <- function(id, country_choices = countries, state_choices
              ),
       column(4,
         actionButton(inputId = ns("search_button"), label = "Search",
-                   style="color: #fff; background-color: #428bca; border-color: #357ebd;")
+                   style="color: #fff; background-color: #428bca; border-color: #357ebd;"),
+        nter::nter( ns("search_button"), ns("npi_number")),
+        nter::nter( ns("search_button"), ns("last_name")),
+        nter::nter( ns("search_button"), ns("postal_code")),
+        nter::nter( ns("search_button"), ns("organization_name"))
              )
     ),
     fluidRow(
